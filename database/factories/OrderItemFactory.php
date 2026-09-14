@@ -2,23 +2,21 @@
 
 namespace Database\Factories;
 
-use App\Models\OrderItem;
+use App\Models\Menu;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<OrderItem>
- */
 class OrderItemFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $menu = Menu::inRandomOrder()->first();
+        $qty  = fake()->numberBetween(1, 10);
+
         return [
-            //
+            'menu_id'  => $menu->id,
+            'qty'      => $qty,
+            'subtotal' => $menu->price * $qty, // dihitung otomatis dari harga menu
+            // 'order_id' diisi manual di seeder (loop per order)
         ];
     }
 }

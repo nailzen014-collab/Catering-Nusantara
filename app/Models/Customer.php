@@ -11,7 +11,19 @@ class Customer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'city_id'];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'phone',
+        'city_id',
+        'address',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 
     public function city(): BelongsTo
     {
@@ -22,9 +34,4 @@ class Customer extends Model
     {
         return $this->hasMany(Order::class);
     }
-
-    public function user(): BelongsTo
-{
-    return $this->belongsTo(User::class);
-}
 }
