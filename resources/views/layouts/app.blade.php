@@ -20,18 +20,20 @@
         rel="stylesheet"
     >
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
 
         :root {
-            --cream: #F7ECDA;
-            --ink: #3B2A1E;
+            --cream: #F5ECD9;
+            --ink: #12271B;
             --clay: #A6432D;
             --clay-dark: #7E301F;
-            --turmeric: #C98A2C;
+            --turmeric: #C9A35B;
             --leaf: #4B6043;
-            --card: #FFFBF2;
-            --line: #E4D4B8;
-            --muted: #8A7458;
+            --card: #FFFAF0;
+            --line: #DFD2B9;
+            --muted: #788273;
 
             --font-display: 'Fraunces', serif;
             --font-body: 'Karla', sans-serif;
@@ -147,14 +149,15 @@
         /* Page header */
 
         .page-header {
-            background: var(--card);
-            border-bottom: 1px solid var(--line);
-            padding: 28px 0;
+            background: var(--ink);
+            border-bottom: 0;
+            padding: 42px 0 28px;
         }
 
         .page-header h1 {
-            color: var(--clay-dark);
-            font-size: 1.6rem;
+            color: var(--cream);
+            font-size: 2.4rem;
+            font-style: italic;
         }
 
         /* Table */

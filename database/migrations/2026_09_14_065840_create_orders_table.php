@@ -8,23 +8,24 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('customer_id')
+                ->constrained('customers')
+                ->cascadeOnDelete();
+            $table->foreignId('payment_method_id')
+                ->constrained('payment_methods')
+                ->cascadeOnDelete();
             $table->foreignId('courier_id')
-                ->nullable()
-                ->change();
-
-            $table->text('shipping_address')->nullable()->after('status');
-            $table->string('payment_proof')->nullable()->after('shipping_address');
+                ->constrained('couriers')
+                ->cascadeOnDelete();
+            $table->string('status')->default('pending');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn([
-                'shipping_address',
-                'payment_proof',
-            ]);
-        });
+        Schema::dropIfExists('orders');
     }
 };

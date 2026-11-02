@@ -11,8 +11,8 @@
 
     <style>
         :root {
-            --cream: #F7ECDA; --ink: #3B2A1E; --clay: #A6432D; --clay-dark: #7E301F;
-            --turmeric: #C98A2C; --leaf: #4B6043; --card: #FFFBF2; --line: #E4D4B8;
+            --cream: #F5ECD9; --ink: #12271B; --clay: #A6432D; --clay-dark: #7E301F;
+            --turmeric: #C9A35B; --leaf: #4B6043; --card: #FFFAF0; --line: #DFD2B9;
             --font-display: 'Fraunces', serif; --font-body: 'Karla', sans-serif;
         }
         * { box-sizing: border-box; }
@@ -20,7 +20,9 @@
             font-family: var(--font-body);
             margin: 0;
             min-height: 100vh;
-            background: var(--ink);
+            background:
+                linear-gradient(rgba(18,39,27,.88), rgba(18,39,27,.88)),
+                url('{{ asset('images/landing/hero.jpg') }}') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -31,13 +33,13 @@
             width: 100%;
             max-width: 400px;
             padding: 40px 36px;
-            border-radius: 4px 24px 4px 24px; /* radius asimetris, bukan seragam */
+            border-radius: 2px 24px 2px 24px;
             box-shadow: 0 12px 32px rgba(0,0,0,0.28);
         }
         .auth-card .brand {
             font-family: var(--font-display);
             text-align: center;
-            color: var(--clay-dark);
+            color: var(--ink);
             font-weight: 600;
             font-size: 1.4rem;
             margin-bottom: 28px;
@@ -52,10 +54,10 @@
         .auth-card input:focus, .auth-card select:focus { outline: none; border-color: var(--clay); }
         .auth-card .error { color: #A6432D; font-size: 0.8rem; margin-top: -12px; margin-bottom: 14px; }
         .auth-card button {
-            width: 100%; background: var(--clay); color: #fff; border: none; padding: 13px;
+            width: 100%;             background: var(--turmeric); color: var(--ink); border: none; padding: 13px;
             border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; font-size: 0.95rem;
         }
-        .auth-card button:hover { background: var(--clay-dark); }
+        .auth-card button:hover { background: #ddba74; }
         .auth-card .switch-link { text-align: center; margin-top: 20px; font-size: 0.85rem; color: #8A7458; }
         .auth-card .switch-link a { color: var(--clay); text-decoration: none; font-weight: 700; }
         .status-msg { background: #EAF1E5; color: var(--leaf); padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 16px; }

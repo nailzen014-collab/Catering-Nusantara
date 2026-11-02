@@ -29,8 +29,8 @@ class RegisteredUserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
-            'phone' => ['required', 'string', 'max:20'],
-            'city_id' => ['required', 'exists:cities,id'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'city_id' => ['nullable', 'exists:cities,id'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -46,8 +46,8 @@ class RegisteredUserController extends Controller
             Customer::create([
                 'user_id' => $user->id,
                 'name' => $validated['name'],
-                'phone' => $validated['phone'],
-                'city_id' => $validated['city_id'],
+                'phone' => $validated['phone'] ?? '',
+                'city_id' => $validated['city_id'] ?? null,
             ]);
         });
 
@@ -57,6 +57,6 @@ class RegisteredUserController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('checkout');
+        return redirect()->route('dashboard');
     }
 }

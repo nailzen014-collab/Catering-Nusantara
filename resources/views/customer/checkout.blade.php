@@ -210,7 +210,7 @@
     @enderror
 </div>
                     <div class="address-city">
-                        {{ $customer->city->name }}
+                        {{ $customer?->city?->name ?? '-' }}
                     </div>
 
                 </div>

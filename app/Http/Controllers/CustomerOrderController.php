@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -14,7 +16,7 @@ class CustomerOrderController extends Controller
 {
     public function index()
     {
-        $customer = Auth::user()->customer;
+        $customer = $this->customer();
 
         $orders = Order::with([
             'orderItems.menu.category',
@@ -28,40 +30,41 @@ class CustomerOrderController extends Controller
         return view('customer.orders.index', compact('orders'));
     }
 
-   public function create()
-{
-    $customer = Auth::user()->customer;
+    public function create()
+    {
+        $customer = $this->customer();
 
-    $menus = Menu::with('category')
-        ->orderBy('name')
-        ->get();
+        $menus = Menu::with('category')
+            ->orderBy('name')
+            ->get();
 
-    $paymentMethods = PaymentMethod::orderBy('id')->get();
+        $paymentMethods = PaymentMethod::orderBy('id')->get();
 
-    return view('customer.checkout', compact(
-        'customer',
-        'menus',
-        'paymentMethods'
-    ));
-}
+        return view('customer.checkout', compact(
+            'customer',
+            'menus',
+            'paymentMethods'
+        ));
+    }
 
     public function loadMoreMenus(Request $request)
-{
-    $menus = Menu::with('category')
-        ->orderBy('name')
-        ->paginate(12, ['*'], 'page', $request->page ?? 1);
+    {
+        $menus = Menu::with('category')
+            ->orderBy('name')
+            ->paginate(12, ['*'], 'page', $request->page ?? 1);
 
-    return response()->json([
-        'html' => view('customer.partials.menu-cards', compact('menus'))->render(),
-        'hasMore' => $menus->hasMorePages(),
-    ]);
-}
+        return response()->json([
+            'html' => view('customer.partials.menu-cards', compact('menus'))->render(),
+            'hasMore' => $menus->hasMorePages(),
+        ]);
+    }
 
     public function store(Request $request)
     {
-        $customer = Auth::user()->customer;
+        $customer = $this->customer();
 
         $request->validate([
+            'delivery_address' => ['required', 'string', 'max:1000'],
             'qty' => ['required', 'array'],
             'qty.*' => ['nullable', 'integer', 'min:0', 'max:99'],
             'payment_method_id' => ['required', 'exists:payment_methods,id'],
@@ -101,11 +104,14 @@ class CustomerOrderController extends Controller
                 ->store('payment-proofs', 'public');
         }
 
+        $deliveryAddress = trim($request->input('delivery_address'));
+
         DB::transaction(function () use (
             $selectedMenus,
             $customer,
             $request,
-            $paymentProof
+            $paymentProof,
+            $deliveryAddress
         ) {
             $menus = Menu::whereIn('id', $selectedMenus->keys())
                 ->get()
@@ -126,7 +132,7 @@ class CustomerOrderController extends Controller
                 'payment_method_id' => $request->payment_method_id,
                 'courier_id' => null,
                 'status' => 'pending',
-                'delivery_address' => $customer->address . ', ' . $customer->city->name,
+                'delivery_address' => $deliveryAddress,
                 'payment_proof' => $paymentProof,
             ]);
 
@@ -151,26 +157,17 @@ class CustomerOrderController extends Controller
             ->with('success', 'Pesanan berhasil dibuat!');
     }
 
-   public function checkout()
-{
-    $user = Auth::user();
-    $customer = $user->customer;
+    private function customer(): Customer
+    {
+        $user = Auth::user();
 
-    $addresses = $customer->addresses()
-        ->with('city')
-        ->get();
-
-    $menus = Menu::with('category')
-        ->orderBy('name')
-        ->get();
-
-    $paymentMethods = PaymentMethod::all();
-
-    return view('customer.checkout', compact(
-        'customer',
-        'addresses',
-        'menus',
-        'paymentMethods'
-    ));
-}
+        return Customer::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'name' => $user->name,
+                'phone' => '',
+                'city_id' => City::query()->value('id'),
+            ]
+        );
+    }
 }

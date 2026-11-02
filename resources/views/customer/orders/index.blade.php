@@ -63,7 +63,7 @@
             <h3>Pengiriman</h3>
 
             <p>
-                {{ $order->shipping_address }}
+                {{ $order->delivery_address }}
             </p>
 
             <h3>Pembayaran</h3>

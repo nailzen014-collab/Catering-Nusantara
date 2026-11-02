@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container address-page" style="padding-top:42px;padding-bottom:64px;">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -9,13 +9,13 @@
             <p class="text-muted">Simpan alamat yang bisa digunakan saat checkout.</p>
         </div>
 
-        <a href="{{ route('addresses.create') }}" class="btn btn-primary">
+        <a href="{{ route('addresses.create') }}" class="btn btn-primary lp-btn lp-btn-gold">
             + Tambah Alamat
         </a>
     </div>
 
     @forelse ($addresses as $address)
-        <div class="card mb-3">
+        <div class="card mb-3 address-card">
             <div class="card-body">
                 <h5>{{ $address->label }}</h5>
 
@@ -49,7 +49,7 @@
             </div>
         </div>
     @empty
-        <div class="alert alert-info">
+        <div class="alert alert-info surface" style="padding:24px;">
             Belum ada alamat. Silakan tambahkan alamat terlebih dahulu.
         </div>
     @endforelse

@@ -25,7 +25,7 @@
                         Beranda
                     </a>
 
-                    <a href="{{ route('checkout') }}">
+                    <a href="{{ route('checkout') }}" class="navbar-cta">
                         Pesan Sekarang
                     </a>
 
@@ -33,6 +33,10 @@
                         Pesanan Saya
                     </a>
                 @endif
+
+                <a href="{{ route('profile.edit') }}">
+                    Profil
+                </a>
 
                 {{-- LOGOUT --}}
                 <form method="POST" action="{{ route('logout') }}" class="logout-form">
@@ -54,7 +58,7 @@
                     Masuk
                 </a>
 
-                <a href="{{ route('register') }}">
+                <a href="{{ route('register') }}" class="navbar-cta">
                     Daftar
                 </a>
 
@@ -67,30 +71,32 @@
 <style>
     .site-navbar {
         width: 100%;
-        background: #3b281d;
+        background: #0e2116;
         color: #fff;
         position: relative;
         z-index: 100;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(201, 163, 91, .18);
     }
 
     .navbar-container {
         width: min(1140px, calc(100% - 48px));
-        min-height: 76px;
+        min-height: 82px;
         margin: 0 auto;
 
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 30px;
+        gap: 26px;
     }
 
     .navbar-logo {
-        color: #fff !important;
+        color: #f6efe1 !important;
         text-decoration: none !important;
-        font-family: Georgia, serif;
-        font-size: 26px;
-        font-weight: 700;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 23px;
+        font-style: italic;
+        font-weight: 600;
+        letter-spacing: 0.01em;
         white-space: nowrap;
         transition: 0.2s ease;
     }
@@ -107,16 +113,30 @@
     }
 
     .navbar-links a {
-        color: #f7ead7 !important;
+        color: #f6efe1 !important;
         text-decoration: none !important;
-        font-size: 15px;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: .04em;
         transition: 0.2s ease;
         white-space: nowrap;
     }
 
     .navbar-links a:hover {
-        color: #d95b3b !important;
+        color: #c9a35b !important;
+    }
+
+    .navbar-links a.navbar-cta {
+        padding: 10px 20px;
+        border-radius: 2px 999px 2px 999px;
+        background: #c9a35b;
+        color: #12271b !important;
+        font-weight: 700;
+        letter-spacing: 0;
+    }
+
+    .navbar-links a.navbar-cta:hover {
+        background: #ddba74;
     }
 
     .logout-form {
@@ -127,7 +147,7 @@
     .logout-button {
         border: 0;
         background: transparent;
-        color: #f7ead7;
+        color: #f6efe1;
         font-family: inherit;
         font-size: 15px;
         font-weight: 600;
@@ -137,7 +157,7 @@
     }
 
     .logout-button:hover {
-        color: #d95b3b;
+        color: #c9a35b;
     }
 
     @media (max-width: 700px) {
