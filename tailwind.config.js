@@ -11,8 +11,25 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                cream: '#F5ECD9',
+                paper: '#FFFAF0',
+                ink: '#12271B',
+                clay: '#A6432D',
+                'clay-dark': '#7E301F',
+                turmeric: '#C9A35B',
+                'turmeric-light': '#E7D2A8',
+                leaf: '#4B6043',
+                line: '#DFD2B9',
+                muted: '#788273',
+            },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                display: ['Fraunces', 'Georgia', 'serif'],
+                body: ['Karla', ...defaultTheme.fontFamily.sans],
+            },
+            maxWidth: {
+                shell: '1240px',
+                prose: '34rem',
             },
         },
     },

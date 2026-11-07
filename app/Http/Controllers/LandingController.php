@@ -8,8 +8,15 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('category')->inRandomOrder()->take(6)->get();
+        $menus = Menu::with('category')->inRandomOrder()->take(24)->get();
 
-        return view('landing.index', compact('menus'));
+        $categories = $menus
+            ->map(fn (Menu $menu) => $menu->category?->name)
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
+
+        return view('landing.index', compact('menus', 'categories'));
     }
 }
