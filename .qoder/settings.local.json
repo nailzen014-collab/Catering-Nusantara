@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la && cat agents.md 2>/dev/null | head -5)",
+      "Bash(cat Dockerfile.vercel; echo \"-----\"; cat vercel.json; echo \"-----\"; ls -la database/*.sqlite 2>/dev/null; grep -rn \"DB_CONNECTION\\\\|database_path\" --include=\"*.php\" app config bootstrap 2>/dev/null | head -20)",
+      "Bash(php artisan tinker --execute=\"foreach\\(\\\\App\\\\Models\\\\User::all\\(['id','name','email','role']\\) as \\\\$u\\){echo \\\\$u->toJson\\(\\).PHP_EOL;}\" 2>&1 | tail -20)",
+      "Bash(cat .vercel/project.json 2>/dev/null; echo \"-----\"; ls ~/.vercel 2>/dev/null; echo \"----- logged in?\"; npx --yes vercel@latest whoami 2>&1 | tail -3)",
+      "Bash(npx --yes vercel@latest env ls production 2>&1 | tail -20; echo \"----- domains\"; npx --yes vercel@latest project ls 2>&1 | tail -5)",
+      "Bash(npx --yes vercel@latest env ls production 2>&1 | head -20; echo \"---pull secrets---\"; npx --yes vercel@latest env pull .env.vercel --environment=production --yes 2>&1 | tail -3)",
+      "Bash(npx --yes vercel@latest env rm MAIL_MAILER production --yes 2>&1 | tail -2 && npx --yes vercel@latest env add MAIL_MAILER production --value \"log\" --sensitive 2>&1 | tail -2 && npx --yes vercel@latest env add MAIL_FROM_ADDRESS production --value \"hello@cateringnusantara.test\" --sensitive 2>&1 | tail -2)",
+      "Bash",
+      "Bash(cd /tmp/vreset && printf '%s\\\\n' \"const { execSync } = require\\('child_process'\\);\" \"const code = \\\\\"echo \\\\\\\\\\\\\\\\App\\\\\\\\\\\\\\\\Models\\\\\\\\\\\\\\\\User::where\\('role','admin'\\)->update\\(['password' => bcrypt\\('Nusantara#2026'\\)]\\) . ' admins updated';\\\\\";\" \"const out = execSync\\('php artisan tinker --execute=\\\\\"' + code + '\\\\\"', { encoding: 'utf8' }\\);\" \"console.log\\(out\\);\" > artisan-reset.js && cat artisan-reset.js)",
+      "Bash(rm -f .env.vercel; rm -rf /tmp/vreset; echo cleaned)",
+      "Bash(cat > /tmp/probe.sh <<'EOF'\ns=$\\(curl -s -c /tmp/cj.txt https://catering-nusantara.vercel.app/login\\)\nt=$\\(echo \"$s\" | sed -n 's/.*name=\"_token\" value=\"\\\\\\([^\"]*\\\\\\)\".*/\\\\1/p' | head -1\\)\nfor e in admin@cateringnusantara.test admin@example.com admin@admin.com admin@catering.com admin@rasanusantara.com admin@rasanusantara.test; do\n  code=$\\(curl -s -b /tmp/cj.txt -c /tmp/cj.txt -o /dev/null -w \"%{http_code} %{redirect_url}\" -X POST https://catering-nusantara.vercel.app/login \\\\\n    -d \"_token=$t\" -d \"email=$e\" -d \"password=password\" -d \"password_confirmation=password\" -d \"name=Admin\" -d \"role=admin\"\\)\n  echo \"$e -> $code\"\n  s=$\\(curl -s -b /tmp/cj.txt -c /tmp/cj.txt https://catering-nusantara.vercel.app/login\\)\n  t=$\\(echo \"$s\" | sed -n 's/.*name=\"_token\" value=\"\\\\\\([^\"]*\\\\\\)\".*/\\\\1/p' | head -1\\)\ndone\nEOF\nbash /tmp/probe.sh)"
+    ]
+  }
+}
